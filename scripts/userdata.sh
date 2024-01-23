@@ -89,6 +89,6 @@ SERVER_DESCRIPTION=$SERVER_DESCRIPTION
 SERVER_PASSWORD=$SERVER_PASSWORD
 ADMIN_PASSWORD=$ADMIN_PASSWORD
 EOF
-curl -o /srv/palworld/docker-compose.yaml https://raw.githubusercontent.com/victory-he/docker-palworld-dedicated-server/docker-compose-env/docker-compose.yml
+curl -o /srv/palworld/docker-compose.yaml https://raw.githubusercontent.com/victory-he/tf-palworld/master/docker-compose.yml
 cd /srv/palworld
 docker-compose up
