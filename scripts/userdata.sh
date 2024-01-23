@@ -15,7 +15,6 @@ AWS_DEFAULT_REGION=${AWS_REGION}
 S3_REGION=${S3_REGION}
 EIP_ALLOC=${EIP_ALLOC}
 S3_URI=${S3_URI}
-#S3_KEY=`aws s3 --region $S3_REGION ls $S3_URI/saves --recursive | sed "s/saves\///" | sort | tail -n1 | awk '{ print $4 }'`
 S3_KEY=`aws s3 --region $S3_REGION ls $S3_URI/saves --recursive | sort | tail -n1 | awk '{ print $4 }'`
 
 # Associate allocated EIP
@@ -42,11 +41,11 @@ usermod -a -G docker ec2-user
 sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Create Valheim server directories
+# Create Palworld server directories
 mkdir -p /srv/palworld/game /srv/palworld/backups /srv/palworld/game/Pal/Saved/SaveGames/0/${DEDICATED_SERVER_NAME} /srv/palworld/game/Pal/Saved/Config/LinuxServer/
 chmod 777 /srv/palworld/game
 
-curl -o /srv/palworld/game/Pal/Saved/Config/LinuxServer/GameUserSettings.ini #github_url
+curl -o /srv/palworld/game/Pal/Saved/Config/LinuxServer/GameUserSettings.ini https://raw.githubusercontent.com/victory-he/tf-palworld/master/scripts/GameUserSettings.ini
 sed -i "/^DedicatedServerName/c\DedicatedServerName=$DEDICATED_SERVER_NAME" /srv/palworld/game/Pal/Saved/Config/LinuxServer/GameUserSettings.ini
 
 # Download backed up Palworld save
@@ -63,7 +62,7 @@ EOF
 cat >> /srv/palworld/s3backup.sh << 'EOF'
 tar -czvf /srv/palworld/backups/pal_save_$(date '+%Y%m%d%H%M').zip /srv/palworld/game/Pal/Saved/SaveGames/
 UPLOAD_FILE="$(ls /srv/palworld/backups -tr | tail -1)"
-aws s3 --region us-west-2 cp /srv/palworld/backups/$UPLOAD_FILE $UPLOAD_BUCKET/
+aws s3 --region $S3_REGION cp /srv/palworld/backups/$UPLOAD_FILE $UPLOAD_BUCKET/
 EOF
 chmod +x /srv/palworld/s3backup.sh
 
@@ -92,4 +91,3 @@ EOF
 curl -o /srv/palworld/docker-compose.yaml https://raw.githubusercontent.com/victory-he/docker-palworld-dedicated-server/docker-compose-env/docker-compose.yml
 cd /srv/palworld
 docker-compose up
-
