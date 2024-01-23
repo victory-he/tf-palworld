@@ -58,6 +58,7 @@ rm /pal_save.zip
 # Create backup to S3 bucket script
 cat > /srv/palworld/s3backup.sh << EOF
 UPLOAD_BUCKET=$S3_URI/saves
+S3_REGION=$S3_REGION
 EOF
 cat >> /srv/palworld/s3backup.sh << 'EOF'
 tar -czvf /srv/palworld/backups/pal_save_$(date '+%Y%m%d%H%M').zip /srv/palworld/game/Pal/Saved/SaveGames/
