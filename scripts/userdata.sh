@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Palworld envs
-export HOME=/root
 MAX_PLAYERS=${MAX_PLAYERS}
 PUBLIC_IP=${PUBLIC_IP}
 SERVER_NAME=${SERVER_NAME}
