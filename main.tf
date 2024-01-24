@@ -87,7 +87,7 @@ resource "aws_launch_template" "tf-palworld-lt" {
   depends_on    = [aws_eip.palworld-eip]
   ebs_optimized = "false"
   image_id      = "ami-09694bfab577e90b0"
-  instance_type = "t3a.large"
+  instance_type = "t3a.xlarge"
   key_name      = var.key_name
   name          = "tf-palworld-lt"
   user_data = base64encode(templatefile("${path.module}/scripts/userdata.sh", {
