@@ -50,7 +50,7 @@ sed -i "/^DedicatedServerName/c\DedicatedServerName=$DEDICATED_SERVER_NAME" /srv
 
 # Download backed up Palworld save
 aws s3 --region $S3_REGION cp $S3_URI/$S3_KEY /pal_save.zip
-unzip -o /pal_save.zip
+tar -xvf /pal_save.zip
 chown -R 1000:1000 /srv/palworld/game
 # Clean up backup files
 rm /pal_save.zip
