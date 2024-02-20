@@ -3,7 +3,7 @@ services:
   palworld-dedicated-server:
     build: .
     container_name: palworld-dedicated-server
-    image: jammsen/palworld-dedicated-server:latest
+    image: victoryhe/palworld-dedicated-server:latest
     restart: always
     network_mode: bridge
     ports:
@@ -22,5 +22,5 @@ services:
   
   rcon:
     image: outdead/rcon:latest
-    entrypoint: ['/rcon', '-a', '10.0.0.5:25575', '-p', '$${ADMIN_PASSWORD}']
+    entrypoint: ['/rcon', '-a', '10.0.0.5:25575', '-p', 'adminPasswordHere']
     profiles: ['rcon']
