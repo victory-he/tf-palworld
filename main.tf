@@ -87,7 +87,7 @@ resource "aws_launch_template" "tf-palworld-lt" {
   depends_on    = [aws_eip.palworld-eip]
   ebs_optimized = "false"
   image_id      = "ami-09694bfab577e90b0"
-  instance_type = "t3a.xlarge"
+  instance_type = var.instance_type
   key_name      = var.key_name
   name          = "tf-palworld-lt"
   user_data = base64encode(templatefile("${path.module}/scripts/userdata.sh", {
@@ -176,4 +176,9 @@ data "aws_instance" "palworld" {
 resource "aws_eip_association" "eip_assoc" {
   instance_id   = data.aws_instance.palworld.id
   allocation_id = aws_eip.palworld-eip.id
+}
+
+output "palworld-ip" {
+  description = "Use this IP to connect to the server!"
+  value       = aws_eip.palworld-eip.public_ip
 }
