@@ -88,6 +88,11 @@ SERVER_DESCRIPTION=$SERVER_DESCRIPTION
 SERVER_PASSWORD=$SERVER_PASSWORD
 ADMIN_PASSWORD=$ADMIN_PASSWORD
 EOF
+
 curl -o /srv/palworld/docker-compose.yaml https://raw.githubusercontent.com/victory-he/tf-palworld/master/docker-compose.yml
 cd /srv/palworld
 docker-compose up
+sleep 5
+CONTAINER=`docker ps -a | grep palworld-dedicated-server | awk '{print $1}'`
+RCON_IP=`docker inspect -f "{{ .NetworkSettings.Gateway }}" $CONTAINER`
+sed -i "/entrypoint/c\ \ \  entrypoint: ['/rcon', '-a', '$RCON_IP:25575', '-p', '$ADMIN_PASSWORD']" /srv/palworld/docker-compose.yaml
